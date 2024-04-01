@@ -1,18 +1,13 @@
-# Base64 Extension
-
-## Feature highlights
-
-1. Convert a string to base64
-2. Convert files to base64
-
-## TODO
-
-- [ ] Convert base64 to string
-- [ ] Convert base64 to file
+# UnixTime
 
 
-## Tips
+## What is this?
 
-- When the output BASE64 string exceeds 200 characters, the excess part will be hidden, only displaying the first 200 characters to avoid long output causing page lag.
+This is an Enconvo Extension that helps you convert between Unix Time and Human Readable Time.
 
-- You can use the `Paste` or `Copy` action to retrieve the complete output content.
+
+## How to use it?
+![](https://raw.githubusercontent.com/Enconvo/Unixtime-Converter/main/metadata/Screenshot.png)
+
+## Installation
+https://store.enconvo.com/plugins/Unixtime-Converter

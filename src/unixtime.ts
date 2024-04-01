@@ -22,9 +22,9 @@ export default async function main(req: Request) {
     let result = ''
 
     if (isUnixTime) {
-        const date = new Date(parseInt(content) * 1000)
-        //  use local time zone
-        result = date.toLocaleString()
+        //  convert to  format YYYY-MM-DD HH:mm:ss
+
+        result = formatUnixTimestamp(content)
 
     } else {
         const date = new Date(content)
@@ -44,4 +44,24 @@ export default async function main(req: Request) {
     return output;
 }
 
+
+
+// Function to format the date into YYYY-MM-DD HH:mm:ss
+function formatUnixTimestamp(unixTimestamp: string) {
+    // Create a new Date object from the Unix timestamp
+    // Remember that JS expects timestamps in milliseconds, Unix timestamp is usually in seconds
+    const date = new Date(parseInt(unixTimestamp) * 1000);
+
+    // Format the year, month, day, hours, minutes and seconds
+    // Use .toString().padStart(2, '0') to add leading zeroes to months, days, hours, minutes and seconds if needed
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // getUTCMonth() returns 0-11, thus +1 
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+
+    // Combine the parts into one string
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
 

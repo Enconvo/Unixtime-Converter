@@ -5,7 +5,7 @@
   "description": "converter between unix time and human readable time.",
   "title": "UnixTime Converter",
   "icon": "icon.png",
-  "author": "ysnows",
+  "author": "EnconvoAI",
   "categories": [
     "Util"
   ],
