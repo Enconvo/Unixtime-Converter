@@ -18,7 +18,9 @@ export default async function main(req: Request) {
     // convert between unix time and human readable time
     // if is unix time, convert to human readable time
     // if is human readable time, convert to unix time
-    const isUnixTime = /^[0-9]{10}$/.test(content)
+    const isUnixTime = /^[0-9]{10,}$/.test(content)
+    // 如果大于10位，就是unix时间戳
+
     let result = ''
 
     if (isUnixTime) {
@@ -45,12 +47,15 @@ export default async function main(req: Request) {
 }
 
 
-
 // Function to format the date into YYYY-MM-DD HH:mm:ss
 function formatUnixTimestamp(unixTimestamp: string) {
     // Create a new Date object from the Unix timestamp
     // Remember that JS expects timestamps in milliseconds, Unix timestamp is usually in seconds
-    const date = new Date(parseInt(unixTimestamp) * 1000);
+
+
+    let timestamp = parseInt(unixTimestamp.slice(0, 10)) * 1000
+
+    const date = new Date(timestamp);
 
     // Format the year, month, day, hours, minutes and seconds
     // Use .toString().padStart(2, '0') to add leading zeroes to months, days, hours, minutes and seconds if needed
