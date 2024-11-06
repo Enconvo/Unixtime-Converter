@@ -4,16 +4,20 @@ import { uuid, Clipboard, Action, ActionProps, res } from "@enconvo/api";
 export default async function main(req: Request) {
     // let table;
     const { options } = await req.json()
-    const { text, context } = options
+    const { input_text, context, selection_text } = options
 
-    const content = text || context || await Clipboard.selectedText()
-    const requestId = uuid()
+    let content = input_text || context || selection_text || await Clipboard.selectedText()
 
     if (!content || !content.trim()) {
-        throw new Error("No content to convert. Please provide a unix time or a human readable time.")
+        const now = new Date()
+        const year = now.getFullYear()
+        const month = (now.getMonth() + 1).toString().padStart(2, '0')
+        const day = now.getDate().toString().padStart(2, '0')
+        const hours = now.getHours().toString().padStart(2, '0')
+        const minutes = now.getMinutes().toString().padStart(2, '0')
+        const seconds = now.getSeconds().toString().padStart(2, '0')
+        content = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
     }
-
-    await res.context({ id: requestId, role: "human", content: content })
 
     // convert between unix time and human readable time
     // if is unix time, convert to human readable time
@@ -46,12 +50,10 @@ export default async function main(req: Request) {
     return output;
 }
 
-
 // Function to format the date into YYYY-MM-DD HH:mm:ss
 function formatUnixTimestamp(unixTimestamp: string) {
     // Create a new Date object from the Unix timestamp
     // Remember that JS expects timestamps in milliseconds, Unix timestamp is usually in seconds
-
 
     let timestamp = parseInt(unixTimestamp.slice(0, 10)) * 1000
 
