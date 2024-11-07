@@ -22,7 +22,7 @@ export default async function main(req: Request) {
     // convert between unix time and human readable time
     // if is unix time, convert to human readable time
     // if is human readable time, convert to unix time
-    const isUnixTime = /^[0-9]{10,}$/.test(content)
+    const isUnixTime = /^[0-9]{10,}(?:\.[0-9]+)?(?:l)?$/.test(content)
     // 如果大于10位，就是unix时间戳
 
     let result = ''
