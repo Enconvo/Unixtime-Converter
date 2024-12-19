@@ -1,9 +1,9 @@
-import { uuid, Clipboard, Action, ActionProps, res } from "@enconvo/api";
+import { Clipboard, Action, RequestOptions, EnconvoResponse, ResponseAction } from "@enconvo/api";
 
 
-export default async function main(req: Request) {
+export default async function main(req: Request): Promise<EnconvoResponse> {
     // let table;
-    const { options } = await req.json()
+    const options: RequestOptions = await req.json()
     const { input_text, context, selection_text } = options
 
     let content = input_text || context || selection_text || await Clipboard.selectedText()
@@ -23,7 +23,6 @@ export default async function main(req: Request) {
     // if is unix time, convert to human readable time
     // if is human readable time, convert to unix time
     const isUnixTime = /^[0-9]{10,}(?:\.[0-9]+)?(?:l)?$/.test(content)
-    // 如果大于10位，就是unix时间戳
 
     let result = ''
 
@@ -37,18 +36,19 @@ export default async function main(req: Request) {
         result = Math.floor(date.getTime() / 1000).toString()
     }
 
-    const actions: ActionProps[] = [
-        Action.Paste(result, true),
-        Action.Copy(result)
+    const actions: ResponseAction[] = [
+        Action.Paste({ content: result, closeMainWindow: true }),
+        Action.Copy({ content: result })
     ]
 
-    const output = {
+
+    return {
+        type: "text",
         content: result.slice(0, 1000) + (result.length > 1000 ? "\n..." : ""),
         actions: actions
     }
-
-    return output;
 }
+
 
 // Function to format the date into YYYY-MM-DD HH:mm:ss
 function formatUnixTimestamp(unixTimestamp: string) {
