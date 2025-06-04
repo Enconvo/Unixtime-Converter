@@ -41,12 +41,8 @@ export default async function main(req: Request): Promise<EnconvoResponse> {
         Action.Copy({ content: result })
     ]
 
+    return EnconvoResponse.text(result, actions)
 
-    return {
-        type: "text",
-        content: result.slice(0, 1000) + (result.length > 1000 ? "\n..." : ""),
-        actions: actions
-    }
 }
 
 
